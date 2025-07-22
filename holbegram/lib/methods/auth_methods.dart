@@ -91,4 +91,12 @@ class AuthMethod {
     TaskSnapshot snap = await uploadTask;
     return await snap.ref.getDownloadURL();
   }
+
+  // Get current user details
+  Future<Users> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap =
+        await _firestore.collection("users").doc(currentUser.uid).get();
+    return Users.fromSnap(snap);
+  }
 }
