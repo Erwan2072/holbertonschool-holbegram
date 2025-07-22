@@ -28,7 +28,10 @@ dependencies:
   provider: ^6.1.5
   uuid: ^4.5.1
   pull_to_refresh: ^2.0.0
-  http: ^0.13.6  # ➕ Ajouté pour les requêtes vers Cloudinary (manquait)
+  http: ^1.4.0 
+
+  #  Ajouté pour la barre de navigation en bas
+  bottom_navy_bar: ^6.0.0
 
 dev_dependencies:
   flutter_test:
