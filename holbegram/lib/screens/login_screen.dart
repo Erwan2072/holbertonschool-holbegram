@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field_input.dart';
 import 'signup_screen.dart';
+import '../methods/auth_methods.dart'; 
 
 class LoginScreen extends StatefulWidget {
   final TextEditingController? emailController;
@@ -34,6 +35,25 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  // Nouvelle fonction pour gérer le login
+  void _handleLogin() async {
+    String res = await AuthMethod().login(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    if (res == "success") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Login")),
+      );
+      //TODO: Naviguer vers la HomePage ici
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(res)),
+      );
+    }
   }
 
   @override
@@ -100,9 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {
-                    // TODO: Login logic
-                  },
+                  onPressed: _handleLogin, // 🔴 appel de la fonction login
                   child: const Text(
                     'Log in',
                     style: TextStyle(
