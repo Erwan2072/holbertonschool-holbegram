@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/post.dart';
 import '../providers/user_provider.dart';
-import '../models/user.dart'; // Assure-toi que ce fichier existe bien
+import '../models/user.dart';
+import '../screens/pages/methods/post_storage.dart'; // Import du storage
 
 class Posts extends StatefulWidget {
   const Posts({super.key});
@@ -66,7 +67,12 @@ class _PostsState extends State<Posts> {
                           const Spacer(),
                           IconButton(
                             icon: const Icon(Icons.more_horiz),
-                            onPressed: () {
+                            onPressed: () async {
+                              await PostStorage().deletePost(
+                                post.postId,
+                                post.postUrl, // ⚠️ postUrl contient l'URL Cloudinary => à parser si nécessaire
+                              );
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("Post Deleted")),
                               );
