@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field_input.dart';
 import 'login_screen.dart';
+import 'upload_image_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -25,6 +26,30 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void navigateToAddPicture() {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String username = _fullNameController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || username.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill all the fields")),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddPicture(
+          email: email,
+          password: password,
+          username: username,
+        ),
+      ),
+    );
   }
 
   @override
@@ -125,9 +150,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  onPressed: () {
-                    // TODO: Signup logic
-                  },
+                  onPressed: navigateToAddPicture,
                   child: const Text(
                     'Sign up',
                     style: TextStyle(
