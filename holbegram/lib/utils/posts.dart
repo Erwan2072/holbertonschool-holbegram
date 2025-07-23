@@ -70,7 +70,7 @@ class _PostsState extends State<Posts> {
                             onPressed: () async {
                               await PostStorage().deletePost(
                                 post.postId,
-                                post.postUrl, // ⚠️ postUrl contient l'URL Cloudinary => à parser si nécessaire
+                                post.postUrl,
                               );
 
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -96,13 +96,31 @@ class _PostsState extends State<Posts> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Icon(Icons.favorite_border),
-                        Icon(Icons.comment),
-                        Icon(Icons.send),
-                        Icon(Icons.bookmark_border),
+                        const Icon(Icons.favorite_border),
+                        const Icon(Icons.comment),
+                        const Icon(Icons.send),
+                        IconButton(
+                          icon: const Icon(Icons.bookmark_border),
+                          onPressed: () async {
+                            if (user != null) {
+                              await FirebaseFirestore.instance
+                                  .collection('favorites')
+                                  .add({
+                                'postUrl': post.postUrl,
+                                'uid': user.uid,
+                                'timestamp': Timestamp.now(),
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Ajouté aux favoris')),
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ],
